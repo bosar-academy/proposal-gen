@@ -1,6 +1,12 @@
 import Stripe from "stripe";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  maxNetworkRetries: 3,
-  timeout: 30000,
-});
+let _stripe: Stripe;
+export function getStripe() {
+  if (!_stripe) {
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      maxNetworkRetries: 3,
+      timeout: 30000,
+    });
+  }
+  return _stripe;
+}

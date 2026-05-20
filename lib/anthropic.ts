@@ -1,8 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-export const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
-});
+let _anthropic: Anthropic;
+export function getAnthropic() {
+  if (!_anthropic) {
+    _anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
+  }
+  return _anthropic;
+}
 
 export const PROPOSAL_SYSTEM_PROMPT = `You are an elite proposal writer. You write like a sharp, experienced consultant - direct, specific, no fluff.
 

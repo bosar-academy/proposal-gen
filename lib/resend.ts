@@ -1,6 +1,10 @@
 import { Resend } from "resend";
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+let _resend: Resend;
+function getResend() {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY);
+  return _resend;
+}
 
 export async function sendNotification({
   to,
@@ -12,7 +16,7 @@ export async function sendNotification({
   html: string;
 }) {
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: "Proposals <onboarding@resend.dev>",
       to,
       subject,

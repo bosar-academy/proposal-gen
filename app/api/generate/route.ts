@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/server";
-import { anthropic, PROPOSAL_SYSTEM_PROMPT } from "@/lib/anthropic";
+import { getAnthropic, PROPOSAL_SYSTEM_PROMPT } from "@/lib/anthropic";
 import { SERVICES_AGREEMENT_HTML } from "@/lib/agreement";
 import type { BusinessProfile, ProposalStructuredContent } from "@/lib/types";
 
@@ -168,7 +168,7 @@ ${pricingContext || (noPricingProvided ? "\nNo pricing provided — suggest mark
 Respond with the JSON structure specified in the system prompt.`;
     }
 
-    const message = await anthropic.messages.create({
+    const message = await getAnthropic().messages.create({
       model: "claude-sonnet-4-5-20250929",
       max_tokens: 16384,
       system: PROPOSAL_SYSTEM_PROMPT,
